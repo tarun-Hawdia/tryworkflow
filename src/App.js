@@ -10,14 +10,12 @@ const App = () => {
     <Router>
       <div className="App">
         <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/decisiontree">Decision Tree</Link>
-            </li>
-          </ul>
+          <div>
+            <Link to="/">Home</Link>
+          </div>
+          <div>
+            <Link to="/decisiontree">Decision Tree</Link>
+          </div>
         </nav>
         <Routes>
           <Route path="/" element={<DropdownPage />} />
