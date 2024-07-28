@@ -2,17 +2,20 @@
 import React, { useState } from "react";
 import "./DropdownPage.css";
 
-const options = ["Name", "Age", "Gender", "Pincode"];
+const options = ["Age", "Gender", "Pincode"];
+const loanStatusOption = "Loan Status";
 
 const DropdownPage = () => {
   const [dropdowns, setDropdowns] = useState([{ option: "", text: "" }]);
+  const [loanStatus, setLoanStatus] = useState("");
 
   const handleOptionChange = (index, value) => {
     const newDropdowns = [...dropdowns];
     newDropdowns[index].option = value;
     setDropdowns(newDropdowns);
 
-    if (index === dropdowns.length - 1 && dropdowns.length < 4) {
+    if (index === dropdowns.length - 1 && dropdowns.length < 3) {
+      // limit to 3 rows
       setDropdowns([...dropdowns, { option: "", text: "" }]);
     }
   };
@@ -30,6 +33,17 @@ const DropdownPage = () => {
 
   const handleReset = () => {
     setDropdowns([{ option: "", text: "" }]);
+    setLoanStatus("");
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission
+    console.log(
+      "Form submitted with data:",
+      dropdowns,
+      "Loan Status:",
+      loanStatus
+    );
   };
 
   const getFilteredOptions = (currentIndex) => {
@@ -38,6 +52,10 @@ const DropdownPage = () => {
       .map((d) => d.option);
     return options.filter((option) => !selectedOptions.includes(option));
   };
+
+  const allFieldsSelected =
+    dropdowns.every((d) => d.option !== "" && d.text !== "") &&
+    loanStatus !== "";
 
   return (
     <div className="dropdown-page">
@@ -81,9 +99,28 @@ const DropdownPage = () => {
           )}
         </div>
       ))}
+      {dropdowns.length === 3 &&
+        dropdowns.every((d) => d.option !== "" && d.text !== "") && (
+          <div className="dropdown-row">
+            <select
+              value={loanStatus}
+              onChange={(e) => setLoanStatus(e.target.value)}
+            >
+              <option value="" disabled>
+                Loan Status
+              </option>
+              <option value={loanStatusOption}>{loanStatusOption}</option>
+            </select>
+          </div>
+        )}
       <button onClick={handleReset} className="reset-button">
         Reset
       </button>
+      {allFieldsSelected && (
+        <button onClick={handleSubmit} className="submit-button">
+          Submit
+        </button>
+      )}
     </div>
   );
 };
