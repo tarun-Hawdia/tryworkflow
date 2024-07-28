@@ -6,6 +6,7 @@ const options = ["Age", "Gender", "Pincode"];
 const loanStatusOption = "Loan Status";
 
 const DropdownPage = () => {
+  const [workflowName, setWorkflowName] = useState("");
   const [dropdowns, setDropdowns] = useState([{ option: "", text: "" }]);
   const [loanStatus, setLoanStatus] = useState("");
 
@@ -32,18 +33,18 @@ const DropdownPage = () => {
   };
 
   const handleReset = () => {
+    setWorkflowName("");
     setDropdowns([{ option: "", text: "" }]);
     setLoanStatus("");
   };
 
   const handleSubmit = () => {
     // Handle form submission
-    console.log(
-      "Form submitted with data:",
+    console.log("Form submitted with data:", {
+      workflowName,
       dropdowns,
-      "Loan Status:",
-      loanStatus
-    );
+      loanStatus,
+    });
   };
 
   const allFieldsSelected =
@@ -53,6 +54,14 @@ const DropdownPage = () => {
   return (
     <div className="dropdown-page">
       <h1>Dropdown Page</h1>
+      <div className="workflow-name-row">
+        <input
+          type="text"
+          value={workflowName}
+          onChange={(e) => setWorkflowName(e.target.value)}
+          placeholder="Enter workflow name"
+        />
+      </div>
       {dropdowns.map((dropdown, index) => (
         <div key={index} className="dropdown-row">
           <select
