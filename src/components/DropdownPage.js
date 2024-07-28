@@ -46,13 +46,6 @@ const DropdownPage = () => {
     );
   };
 
-  const getFilteredOptions = (currentIndex) => {
-    const selectedOptions = dropdowns
-      .slice(0, currentIndex)
-      .map((d) => d.option);
-    return options.filter((option) => !selectedOptions.includes(option));
-  };
-
   const allFieldsSelected =
     dropdowns.every((d) => d.option !== "" && d.text !== "") &&
     loanStatus !== "";
@@ -69,7 +62,7 @@ const DropdownPage = () => {
             <option value="" disabled>
               Select option
             </option>
-            {getFilteredOptions(index).map((option) => (
+            {options.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -90,7 +83,7 @@ const DropdownPage = () => {
               <option value="" disabled>
                 Select option
               </option>
-              {getFilteredOptions(index + 1).map((option) => (
+              {options.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
