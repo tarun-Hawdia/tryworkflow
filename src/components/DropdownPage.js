@@ -1,3 +1,5 @@
+import axios from "axios";
+
 // src/components/DropdownPage.js
 import React, { useState } from "react";
 import "./DropdownPage.css";
@@ -38,13 +40,23 @@ const DropdownPage = () => {
     setLoanStatus("");
   };
 
-  const handleSubmit = () => {
-    // Handle form submission
-    console.log("Form submitted with data:", {
-      workflowName,
-      dropdowns,
-      loanStatus,
-    });
+  const handleSubmit = async () => {
+    // Prepare the workflow data to be sent to the backend
+    const workflowData = {
+      name: workflowName,
+      steps: dropdowns.map((dropdown) => ({
+        task: { name: dropdown.option },
+        taskCondition: { conditionText: dropdown.text },
+        subTask: { detail: loanStatus },
+      })),
+    };
+
+    try {
+      const response = await axios.post("/api/workflows/create", workflowData);
+      console.log("Workflow created:", response.data);
+    } catch (error) {
+      console.error("Error creating workflow:", error);
+    }
   };
 
   const allFieldsSelected =
